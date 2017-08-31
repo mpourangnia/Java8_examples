@@ -1,0 +1,63 @@
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
+
+/**
+ * This class uses FileFilter and isDirectory to return all subdirectories
+ * @author POUMAR
+ *
+ */
+public class excercise2subdirectories {
+
+	public static void main(String args[]) throws IOException {
+		getAllSubdirectories("C:/Maryam");
+		getAllSubdirectoriesWithLambda("C:/Maryam");
+		getAllSubdirectoriesWithLambdaAndListFiles("C:/Maryam");
+	}
+	
+	
+	/**
+	 * list all subdirectories with method reference
+	 * @param path
+	 * @throws IOException
+	 */
+	public static void getAllSubdirectories(String path) throws IOException {
+		
+		System.out.println(Arrays.toString(new File(path).listFiles(File::isDirectory)));
+		
+	}
+	
+	/**
+	 * list all subdirectories using lambda
+	 * @param address
+	 * @throws IOException
+	 */
+	public static void getAllSubdirectoriesWithLambda(String address) throws IOException {
+		
+		DirectoryStream<Path> stuffInGivenAddress = Files.newDirectoryStream(Paths.get(address));
+		
+		stuffInGivenAddress.forEach(p -> {	
+						if (p.toFile().isDirectory()) 
+							System.out.println(p);
+					});
+	}
+	
+	/**
+	 * method reference and listFiles
+	 * @param address
+	 * @throws IOException
+	 */
+	public static void getAllSubdirectoriesWithLambdaAndListFiles(String address) throws IOException {
+
+		DirectoryStream<Path> stuffInGivenAddress = Files.newDirectoryStream(Paths.get(address));
+
+		stuffInGivenAddress.forEach(p -> {
+			if(p.toFile().listFiles(File::isDirectory) != null)
+			 System.out.println(p);
+		});
+	}
+}
