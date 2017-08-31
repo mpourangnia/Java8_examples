@@ -1,0 +1,24 @@
+package com.java8.book;
+
+import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+/**
+ * Created by Maryam on 2017-08-31.
+ * This filter all files in a category that have .txt as extension.
+ */
+public class exercise3 {
+
+    public static void main(String[] args) throws IOException {
+        getAllFilesWithExtension("C:/Maryam");
+    }
+
+    public static void getAllFilesWithExtension(String address) throws IOException {
+
+        Files.newDirectoryStream(Paths.get(address),
+                path -> path.toString().endsWith(".txt")).forEach(System.out::println);
+    }
+}
