@@ -1,0 +1,24 @@
+package com.java8.book;
+
+public class exercise7 {
+	
+	public static void main(String args[]) {
+		
+		Runnable runnable1 = () -> {System.out.println("Running runnable1");};
+		Runnable runnable2 = () -> {System.out.println("Running runnable2");};
+		
+		andThen(runnable1, runnable2);
+
+		
+	}
+	
+	public static void andThen(Runnable runnable1, Runnable runnable2) {
+		
+		Thread thread1 = new Thread(runnable1);
+		Thread thread2 = new Thread(runnable2);
+		
+		thread1.start();
+		thread2.start();
+	}
+
+}
