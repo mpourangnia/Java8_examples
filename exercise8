@@ -1,0 +1,31 @@
+package com.java8.book;
+import java.util.ArrayList;
+import java.util.List;
+
+public class exercise8 {
+	
+	
+	public static void main(String args[]) {
+		checkingLoops();
+		checkingLoopWithFor();
+	}
+	
+	private static void checkingLoops() {
+		String[] names = {"Peter", "Paul", "Mary"};
+		List<Runnable> runners = new ArrayList<>();
+		for (String name: names) {
+			runners.add(() -> System.out.println(name));
+		}
+	}
+	
+	/**
+	 * Syntax error if we use a traditional loop
+	 */
+	private static void checkingLoopWithFor() {
+		String[] names = {"Peter", "Paul", "Mary"};
+		List<Runnable> runners = new ArrayList<>();
+//		for (int i = 0; i < names.length; i++) {
+//			runners.add(() -> System.out.println(names[i]));
+//		}
+	}
+}
