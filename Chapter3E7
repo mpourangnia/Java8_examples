@@ -1,0 +1,47 @@
+package chapter3;
+
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.EnumSet;
+import java.util.List;
+
+public class exercise7 {
+
+    public static void main(String[] args) {
+
+        String[] names = { "BBB",
+                         " ccc",
+                            "aaa"};
+
+        Arrays.sort(names, createComparator(EnumSet.of(COMPARATOR_TYPES.CASE_INSENSITIVE, COMPARATOR_TYPES.SPACE_INSENSITIVE)));
+        for (int i = 0; i < names.length; i ++) {
+            System.out.println(names[i]);
+        }
+
+    }
+
+    enum COMPARATOR_TYPES {
+        REVERSED,
+        CASE_INSENSITIVE,
+        SPACE_INSENSITIVE;
+    }
+
+
+    public static Comparator<String> createComparator(EnumSet<COMPARATOR_TYPES> enumSet) {
+
+        return (a, b) -> {
+
+            if (enumSet.contains(COMPARATOR_TYPES.CASE_INSENSITIVE)) {
+                a = a.toLowerCase();
+                b = b.toLowerCase();
+            }
+            if (enumSet.contains(COMPARATOR_TYPES.SPACE_INSENSITIVE)) {
+                a = a.trim();
+                b = b.trim();
+            }
+            return enumSet.contains(COMPARATOR_TYPES.REVERSED) ? b.compareTo(a) : a.compareTo(b);
+      };
+
+    }
+
+}
