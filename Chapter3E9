@@ -1,0 +1,66 @@
+package com.java8.book.chapter3;
+
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.Comparator;
+
+/**
+ * Created by Maryam on 2017-12-12.
+ */
+public class exercise9 {
+
+    public static void main(String[] args) {
+
+        class Person {
+            private String firstname;
+            private String lastname;
+
+            Person(String firstname, String lastname) {
+                this.firstname = firstname;
+                this.lastname = lastname;
+            }
+        }
+
+        Person[] persons = {
+                new Person("Ron", "Wiesley"),
+                new Person("Severos", "Snape"),
+                new Person("Harry", "Potter"),
+                new Person(null, "Voldemort")
+        };
+        Arrays.sort(persons, lexicographicComparator("firstname", "lastname"));
+        for (int i = 0; i < persons.length; i++) {
+            System.out.println(persons[i].firstname + " " + persons[i].lastname);
+        }
+
+    }
+
+    public static <T> Comparator<T> lexicographicComparator(String...fieldnames) {
+
+        return (a1, a2) -> {
+
+            for (String fieldname : fieldnames) {
+
+                try {
+                    Field field = a1.getClass().getDeclaredField(fieldname);
+                    field.setAccessible(true);
+                    Object x = field.get(a1);
+                    Object y = field.get(a2);
+                    if (x == null && y == null) continue;
+                    if (x == null || y == null) return x == null ? 1 : -1;
+                   int result = field.get(a1).toString().compareTo(field.get(a2).toString());
+                    if (result != 0){
+                        return result;
+                    }
+
+                } catch (NoSuchFieldException | IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            return 0;
+
+        };
+
+    }
+}
