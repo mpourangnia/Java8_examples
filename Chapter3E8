@@ -1,0 +1,48 @@
+package com.java8.book.chapter3;
+
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+
+
+public class exercise8 extends Application {
+
+    public static Image transform(Image in, ColorTransformer t) {
+        int width = (int) in.getWidth();
+        int height = (int) in.getHeight();
+        WritableImage out = new WritableImage(width, height);
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                out.getPixelWriter().setColor(x, y,
+                        t.apply(x, y, in.getPixelReader().getColor(x, y)));
+            }
+        }
+        return out;
+    }
+
+    @Override
+    public void start(Stage stage) throws Exception {
+        Image image = new Image("http://juliandance.org/wp-content/uploads/2016/01/RedApple.jpg");
+        Image newImage = transform(image, transformer(image, 10, 15, Color.PURPLE));
+
+        stage.setScene(new Scene(new HBox(new ImageView(image), new ImageView(newImage))));
+        stage.show();
+    }
+
+    public static ColorTransformer transformer(Image image, int X, int Y, Color color) {
+        return (x, y, c) -> (
+                x <= X || x >= image.getWidth() - X
+                        || y <= Y || y >= image.getHeight() - Y) ? color : c;
+    }
+
+
+    @FunctionalInterface
+    interface ColorTransformer {
+        Color apply(int x, int y, Color colorAtXY);
+    }
+}
